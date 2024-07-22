@@ -9,7 +9,7 @@ The website for Urbit Documentation is maintained by the Urbit Foundation and th
 3. Navigate to the `docs.urbit.org` directory and install Node 18 using [nvm](https://github.com/nvm-sh/nvm):
 
     ```shell
-    cd urbit.org
+    cd docs.urbit.org
     nvm install 18
     ```
     You can then run `nvm use` whenever in the repository (or automate it with a script - see [here](https://github.com/nvm-sh/nvm#deeper-shell-integration)).
