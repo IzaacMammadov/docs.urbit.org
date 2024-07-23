@@ -91,22 +91,20 @@ this capability in Hoon School Live, but it will be helpful later when
 you start developing networked apps.
 
 Before beginning, you'll need to get a development ship running and
-configure an appropriate editor.  See the [Environment
-Setup](/courses/environment) guide for details.
+configure an appropriate editor.  See the "Text editors" section and
+"Creating a fake ship" subsection in the
+[Environment Setup](/courses/environment) guide for details.
 
-Once you have a `dojo>` prompt, the system is ready to go and waiting on input.
+Once you have a `~zod:dojo>` prompt, the system is ready to go and waiting on input.
 
 ##  Getting started
 
 Once you've created your development ship, let's try a basic command.
 Type `%-  add  [2 2]` at the prompt and hit `Return`.  (Note the double
-spaces before and after `add`.)  Your screen now shows:
+spaces before and after `add`.)  The last few lines in your terminal
+should now read:
 
 ```hoon {% copy=true %}
-fake: ~zod
-ames: czar: ~zod on 31337 (localhost only)
-http: live (insecure, public) on 80
-http: live (insecure, loopback) on 12321
 > %-  add  [2 2]
 4
 ~zod:dojo>
@@ -116,7 +114,7 @@ You just used a function from the Hoon standard library, `add`, which
 for reasons that will become clear later is frequently written {%
 tooltip label="++add" href="/language/hoon/reference/stdlib/1a#add" /%}.
 Next, quit Urbit by entering {% tooltip label="|exit"
-href="/manual/os/dojo-tools#exit" /%} :
+href="/manual/os/dojo-tools#exit" /%}, or alternatively hitting `ctrl+D`:
 
 ```hoon {% copy=true %}
 > %-  add  [2 2]
@@ -129,8 +127,8 @@ Your ship isn't running anymore and you're back at your computer's
 normal terminal prompt.  If your ship is ~zod, then you can restart the
 ship by typing:
 
-```hoon {% copy=true %}
-urbit zod
+```bash {% copy=true %}
+./urbit zod
 ```
 
 You've already used a standard library function to produce one value, in
@@ -152,7 +150,7 @@ This value is a {% tooltip label="noun" href="/glossary/noun" /%}. We'll
 talk more about nouns in the next lesson.
 
 Basically, every Hoon expression operates on the values it is given
-until it reduces to some form that can't evaluate any farther.  This is
+until it reduces to some form that can't evaluate any further.  This is
 then returned as the result of the evaluation.
 
 One more:
@@ -162,19 +160,20 @@ One more:
 [1 2]
 ```
 
-This `:-` rune takes two values and composes them into a {% tooltip
-label="cell" href="/glossary/cell" /%}, a pair of values.
+This `:-` {% tooltip label="rune" href="/glossary/rune" /%} takes two values
+and composes them into a {% tooltip label="cell" href="/glossary/cell" /%},
+a pair of values.
 
 
 ##  Pronouncing Hoon
 
 Hoon uses {% tooltip label="runes" href="/glossary/rune" /%}, or
-two-character ASCII symbols, to describe its structure.  (These are
-analogous to keywords in other programming languages.)  Because there
-has not really been a standard way of pronouncing, say, `#` (hash,
-pound, number, sharp, hatch) or `!` (exclamation point, bang, shriek,
-pling), the authors of Urbit decided to adopt a one-syllable mnemonic to
-uniquely refer to each.
+two-character [ASCII](https://en.wikipedia.org/wiki/ASCII) symbols,
+to describe the structure of a program.  They are analogous to keywords in
+other programming languages.  Because there has not really been a standard
+way of pronouncing, say, `#` (hash, pound, number, sharp, hatch) or `!`
+(exclamation point, bang, shriek, pling), the authors of Urbit decided to
+adopt a one-syllable mnemonic to uniquely refer to each.
 
 It is highly advisable for you to learn these pronunciations, as the
 documentation and other developers employ them frequently.  For
@@ -193,82 +192,82 @@ developers.
 - `ace`
 - `␣`
 - `gap`
-- `␣␣`, `\n` 
-- `pat` 
-- `@`
+- `␣␣`, `\n`
+- `par`
+- `)`
 ---
 - `bar`
 - `|`
 - `gar`
 - `>`
-- `sel`
-- `[`
+- `pat`
+- `@`
 ---
 - `bas`
 - `\`
 - `hax`
 - `#`
-- `ser`
-- `]`
+- `sel`
+- `[`
 ---
 - `buc`
 - `$`
 - `hep`
 - `-`
-- `sig`
-- `~`
+- `ser`
+- `]`
 ---
 - `cab`
 - `_`
 - `kel`
 - `{`
-- `soq`
-- `'`
+- `sig`
+- `~`
 ---
 - `cen`
 - `%`
 - `ker`
 - `}`
-- `tar`
-- `*`
+- `soq`
+- `'`
 ---
 - `col`
 - `:`
 - `ket`
 - `^`
-- `tic`
-- `` ` ``
+- `tar`
+- `*`
 ---
 - `com`
 - `,`
 - `lus`
 - `+`
-- `tis`
-- `=`
+- `tic`
+- `` ` ``
 ---
 - `doq`
 - `"`
 - `mic`
 - `;`
-- `wut`
-- `?`
+- `tis`
+- `=`
 ---
 - `dot`
 - `.`
 - `pal`
 - `(`
-- `zap`
-- `!`
+- `wut`
+- `?`
 ---
 - `fas`
 - `/`
 - `pam`
 - `&`
+- `zap`
+- `!`
+---
 - `gal`
 - `<`
----
-- `par`
-- `)`
 {% /table %}
 
 Note that the list includes two separate whitespace forms: `ace` for a
