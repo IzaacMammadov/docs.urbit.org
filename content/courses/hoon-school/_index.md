@@ -32,8 +32,8 @@ enable very fast application development with shared primitives,
 sensible affordances, and straightforward distribution.
 
 Urbit consists of an identity protocol ({% tooltip label="\"Azimuth\""
-href="/glossary/azimuth" /%}, or “Urbit ID”) and a system protocol ({%
-tooltip label="\"Arvo\"" href="/glossary/arvo" /%}, or “Urbit OS”).
+href="/glossary/azimuth" /%}, or "Urbit ID") and a system protocol ({%
+tooltip label="\"Arvo\"" href="/glossary/arvo" /%}, or "Urbit OS").
 These two parts work hand-in-hand to build your hundred-year computer.
 
 1. **Urbit ID (Azimuth)** is a general-purpose public-key infrastructure
@@ -177,7 +177,7 @@ adopt a one-syllable mnemonic to uniquely refer to each.
 
 It is highly advisable for you to learn these pronunciations, as the
 documentation and other developers employ them frequently.  For
-instance, a rune like `|=` is called a “bartis”, and you will find it
+instance, a rune like `|=` is called a "bartis", and you will find it
 designated as such in the docs, in the source code, and among the
 developers.
 
@@ -273,5 +273,5 @@ developers.
 Note that the list includes two separate whitespace forms: `ace` for a
 single space `␣`; `gap` is either two or more spaces `␣␣` or a line
 break `\n`.  In Hoon, the only whitespace significance is the
-distinction between `ace` and `gap`—i.e., the distinction between one
+distinction between `ace` and `gap`- i.e., the distinction between one
 space and more than one.
