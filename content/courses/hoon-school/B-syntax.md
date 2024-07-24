@@ -16,13 +16,13 @@ The study of Hoon can be divided into two parts: syntax and semantics.
    determine what counts as admissible code in that language. It
    determines which characters may be used in the source, and also how
    these characters may be assembled to constitute a program. Attempting
-   to run a program that doesn’t follow these rules will result in a
+   to run a program that doesn't follow these rules will result in a
    syntax error.
 
 2. The **semantics** of a programming language concerns the meaning of
-   the various parts of that language’s code.
+   the various parts of that language's code.
 
-In this lesson we will give a general overview of Hoon’s syntax. By the
+In this lesson we will give a general overview of Hoon's syntax. By the
 end of it, you should be familiar with all the basic elements of Hoon
 code.
 
@@ -42,16 +42,16 @@ non-alphanumeric ASCII characters.  Runes form expressions; runes are
 used how keywords are used in other languages.  In other words, all
 computations in Hoon ultimately require runes.  Runes and other Hoon
 expressions are all separated from one another by either two spaces or a
-line break.
+line break (called a "gap").
 
-All runes take a fixed number of “children” or “daughters”.  Children
+All runes take a fixed number of "children" or "daughters".  Children
 can themselves be runes with children, and Hoon programs work by
-chaining through these until a value—not another rune—is arrived at.
+chaining through these until a value (i.e. not another rune) is arrived at.
 For this reason, we very rarely need to close expressions.  Keep this
 scheme in mind when examining Hoon code.
 
 Hoon expressions can be either basic or complex.  Basic expressions of
-Hoon are fundamental, meaning that they can’t be broken down into
+Hoon are fundamental, meaning that they can't be broken down into
 smaller expressions.  Complex expressions are made up of smaller
 expressions (which are called **subexpressions**).
 
@@ -77,7 +77,7 @@ value by one, the Nock formula:
 This is like reading binary machine code:  we mortals need a clearer vernacular.
 
 Hoon serves as Urbit's practical programming language.  Everything in
-Urbit OS is written in Hoon, and many of the ancillary tools as well.  
+Urbit OS is written in Hoon, and many of the ancillary tools as well.
 
 Any operation in Urbit ultimately results in a value.  Much like machine
 language designates any value as a command, an address, or a number, a
@@ -89,7 +89,7 @@ relate to each other?
 ##  Nouns
 
 Think about a child persistently asking you what a thing is made of.  At
-first, you may respond, “plastic”, or “metal”.  Eventually, the child
+first, you may respond, "plastic", or "metal".  Eventually, the child
 may wear you down to a more fundamental level:  atoms and molecules
 (bonded atoms).
 
@@ -99,7 +99,7 @@ chemistry that describes one mathematical representation of data.
 
 The most general data category in Hoon is a {% tooltip label="noun"
 href="/glossary/noun" /%}.  This is just about as broad as saying
-“thing”, so let's be more specific:
+"thing", so let's be more specific:
 
 > A noun is an atom or a cell.
 
@@ -119,8 +119,8 @@ Nock rules to change the noun in well-defined mechanical ways.
 
 If an atom is a non-negative number, how do we represent anything else?
 Hoon provides each atom an {% tooltip label="aura" href="/glossary/aura"
-/%} , a tag which lets you treat a number as text, time, date, Urbit
-address, IP address, and much more.
+/%} , a tag which lets you treat a number as text, time, date, an Urbit
+address, an IP address, and much more.
 
 An aura always begins with `@` pat, which denotes an atom (as opposed to
 a cell, `^` ket, or the general noun, `*` tar).  The next letter or
@@ -140,8 +140,8 @@ like `32` to a binary representation (i.e. for 2⁵), use `@ub`:
 Aura values are all designed to be
 [URL-safe](https://developers.google.com/maps/url-encoding), so the
 European-style thousands separator `.` dot is used instead of the
-English `,` com.  `1.000` is one thousand, not `1.0` one with a
-fractional part of zero.
+English `,` com.  `1.000` is one thousand, not `1.0` (one with a
+fractional part of zero).
 
 While there are dozens of auras for specialized applications, here are
 the most important ones for you to know:
@@ -149,25 +149,24 @@ the most important ones for you to know:
 | Aura | Meaning | Example | Comment |
 | ---- | ------- | ------- | ------- |
 | `@`  | Empty aura | `100` | (displays as `@ud`) |
-| `@da` | Date (absolute) | ~2022.2.8..16.48.20..b53a | Epoch calculated from 292 billion B.C. |
+| `@da` | Date (absolute) | `~2022.2.8..16.48.20..b53a` | Epoch calculated from 292 billion B.C. |
 | `@p` | Ship name | `~zod` |  |
 | `@rs` | Number with fractional part | `.3.1415` | Note the preceding `.` dot. |
-| `@t` | Text (“cord”) | `'hello'` | One of Urbit's several text types; only UTF-8 values are valid. |
+| `@t` | Text ("cord") | `'hello'` | One of Urbit's several text types; only UTF-8 values are valid. |
 | `@ub` | Binary value | `0b1100.0101` |  |
-| `@ud` | Decimal value | `100.000` | Note that German-style thousands separator is used, `.` dot. |
+| `@ud` | Base-10 value | `100.000` | Note that European-style thousands separators are mandatory: `.` dot. |
 | `@ux` | Hexadecimal value | `0x1f.3c4b` |  |
 
-Hearkening back to our discussion of interchangeable representations in
-Lesson -1, you can see that these are all different-but-equivalent ways
+You can see that these are all different-but-equivalent ways
 of representing the same underlying data values.
 
-There's a special value that recurs in many contexts in Hoon:  `~` sig
+There's a special value that recurs in many contexts in Hoon (and is also the Urbit logo):  `~` sig
 is the null or zero value.
 
 The `^-` {% tooltip label="kethep"
 href="/language/hoon/reference/rune/ket#--kethep" /%} rune is useful for
-ensuring that everything in the second child matches the type (aura) of
-the first, e.g.
+ensuring that the second child matches the type (aura) specified in
+the first child, e.g.
 
 ```hoon
 ^-  @ux  0x1ab4
@@ -220,14 +219,14 @@ We deal with cells in more detail below.
 {% callout %}
 
 **Hoon as Noun**
- 
+
 We mentioned earlier that everything in Urbit is a noun, including the
 program itself.  This is true, but getting from the rune expression in
 Hoon to the numeric expression requires a few more tools than we
 currently are prepared to introduce.
 
 For now, you can preview the structure of the Urbit OS as a noun by
-typing `.` dot at the Dojo prompt.  This displays a summary of the
+entering `.` dot in the Dojo. This displays a summary of the
 structure of the operating function itself as a noun.
 
 {% /callout %}
@@ -242,9 +241,10 @@ mathematical relationships between daughter components.  If nouns are
 nouns, then runes are verbs:  they describe how nouns relate.  Runes
 provide the structural and logical relationship between noun values.
 
-A rune is just a pair of ASCII characters (a digraph).  We usually {%
+A rune is just a pair of [ASCII](https://en.wikipedia.org/wiki/ASCII)
+characters (a digraph).  We usually {%
 tooltip label="pronounce runes" href="/glossary/aural-ascii" /%} by
-combining their characters’ names, e.g.: {% tooltip label="\"kethep\""
+combining their characters' names, e.g.: {% tooltip label="\"kethep\""
 href="/language/hoon/reference/rune/ket#--kethep" /%} for `^-`, {%
 tooltip label="\"bartis\""
 href="/language/hoon/reference/rune/bar#-bartis" /%} for `|=`, and {%
@@ -252,14 +252,14 @@ tooltip label="\"barcen\""
 href="/language/hoon/reference/rune/bar#-barcen" /%} for `|%`.
 
 For instance, when we called a function earlier (in Hoon parlance, we
-_slammed a gate_), we needed to provide the `%-` {% tooltip
-label="cenhep" href="/language/hoon/reference/rune/cen#-cenhep" /%} rune
-with two bits of information, a function name and the values to
+slammed a {% tooltip label="gate" href="/glossary/gate" /%}), we needed
+to provide the `%-` {% tooltip label="cenhep" href="/language/hoon/reference/rune/cen#-cenhep" /%}
+rune with two bits of information, a function name and the values to
 associate with it:
 
 ```hoon {% copy=true %}
 %-
-add  
+add
 [1 2]
 ```
 
@@ -267,8 +267,8 @@ The operation you just completed is straightforward enough:  `1 + 2`, in
 many languages, or `(+ 1 2)` in a [Lisp
 dialect](https://en.wikipedia.org/wiki/Lisp_%28programming_language%29)
 like [Clojure](https://en.wikipedia.org/wiki/Clojure).  Literally, we
-can interpret `%-  add  [1 2]` as “evaluate the `add` core on the input
-values `[1 2]`”.
+can interpret `%-  add  [1 2]` as "evaluate the `add` {% tooltip label="core" href="/glossary/core" /%}
+on the input values `[1 2]`".
 
 The {% tooltip label="++add"
 href="/language/hoon/reference/stdlib/1a#add" /%} function expects
@@ -296,7 +296,7 @@ For instance, here are some of the standard library functions which have
 a similar architecture in common:
 
 - [`++add`](/language/hoon/reference/stdlib/1a#add) (addition)
-- [`++sub`](/language/hoon/reference/stdlib/1a#sub) (subtraction, positive results only—what happens if you subtract past zero?)
+- [`++sub`](/language/hoon/reference/stdlib/1a#sub) (subtraction, positive results only-what happens if you subtract past zero?)
 - [`++mul`](/language/hoon/reference/stdlib/1a#mul) (multiplication)
 - [`++div`](/language/hoon/reference/stdlib/1a#div) (integer division, no remainder)
 - [`++pow`](/language/hoon/reference/stdlib/2g#pow) (power or exponentiation)
@@ -318,7 +318,7 @@ readability.
 
 We are only going to introduce a handful of runes in this lesson, but by
 the time we're done with Hoon School, you'll know the twenty-five or so
-runes that yield 80% of the capability.
+runes that yield 80% of the capability of Hoon.
 
 ### Exercise:  Identifying Unknown Runes
 
@@ -338,7 +338,7 @@ explanations.)
   p.kyz
 =/  =@c
   ?@  key.p.kyz  key.p.kyz
-    ?:  ?=  ?(%bac %del %ret)  -.key.p.kyz 
+    ?:  ?=  ?(%bac %del %ret)  -.key.p.kyz
       `@`-.key.p.kyz
     ~-
 ?:  ?=  %met  mod.p.kyz  [%met c]  [%ctl c]
@@ -350,14 +350,14 @@ explanations.)
 3. Consider these questions:
     - Is every pair of punctuation marks a rune?
     - How can you tell a rune from other kinds of marks?
- 
+
 One clue:  every rune in Hoon (except for one, not in the above code)
 has _at least one child_.
 
 ### Exercise:  Inferring Rune Behavior
 
 Here is a snippet of Hoon code:
- 
+
 ```hoon {% copy=true %}
 ^-  list
 :~  [hen %slip %e %init ~]
@@ -402,7 +402,7 @@ Any time you see a `need`/`have` pair, this is what it means.
 ### Rune Families
 
 Runes are classified by family (with the exceptions of `--` hephep and
-`==` tistis). The first of the two symbols indicates the family—e.g.,
+`==` tistis). The first of the two symbols indicates the family-e.g.,
 the `^-` kethep rune is in the `^` {% tooltip label="ket"
 href="/language/hoon/reference/rune/ket" /%} family of runes, and the
 `|=` bartis and `|%` barcen runes are in the `|` {% tooltip label="bar"
@@ -415,17 +415,17 @@ create cells.
 
 Rune expressions are usually complex, which means they usually have one
 or more subexpressions.  The appropriate syntax varies from rune to
-rune; after all, they’re used for different purposes.  To see the syntax
+rune; after all, they're used for different purposes.  To see the syntax
 rules for a particular rune, consult the rune reference.  Nevertheless,
 there are some general principles that hold of all rune expressions.
 
 Runes generally have a fixed number of expected children, and thus do
-not need to be closed.  In other languages you’ll see an abundance of
+not need to be closed.  In other languages you'll see an abundance of
 terminators, such as opening and closing parentheses, and this way of
-doing this is largely absent from Urbit.  That’s because all runes take
+doing this is largely absent from Urbit.  That's because all runes take
 a fixed number of children.  Children of runes can themselves be runes
 (with more children), and Hoon programs work by chaining through these
-series of children until a value—not another rune—is arrived at. This
+series of children until a value-not another rune-is arrived at. This
 makes Hoon code nice and neat to look at.
 
 ### Tall and Wide Forms
@@ -446,9 +446,10 @@ space.
 
 Seeing an example will help you understand the difference.  The `:-`
 colhep rune is used to produce a cell.  Accordingly, it is followed by
-two subexpressions: the first defines the head of the cell, and the
-second defines the tail.  Here are three different ways to write a `:-`
-colhep expression in tall form:
+two subexpressions: the first defines the {%
+tooltip label="head" href="/glossary/head" /%} of the cell, and the
+second defines the {% tooltip label="tail" href="/glossary/tail" /%}.
+Here are three different ways to write a `:-` colhep expression in tall form:
 
 ```hoon
 > :-  11  22
@@ -468,7 +469,7 @@ All of these expressions do the same thing.  The first example shows
 that, if you want to, you can write tall form code on a single line.
 Notice that there are two spaces between the `:-` colhep rune and `11`,
 and also between `11` and `22`.  This is the minimum spacing necessary
-between the various parts of a tall form expression—any fewer will
+between the various parts of a tall form expression-any fewer will
 result in a syntax error.
 
 Usually one or more line breaks are used to break up a tall form
@@ -497,7 +498,7 @@ are a bit too complicated to fit comfortably on one line anyway.)
 
 Since runes take a fixed number of children, one can visualize how Hoon
 expressions are built by thinking of each rune being followed by a
-series of boxes to be filled—one for each of its children.  Let us
+series of boxes to be filled-one for each of its children.  Let us
 illustrate this with the `:-` {% tooltip label="colhep"
 href="/language/hoon/reference/rune/col#--colhep" /%} rune.
 
@@ -517,7 +518,7 @@ The next figure corresponds to the Hoon expression `:-  :-  2  3  4`.
 ![Colhep rune with two boxes for children, one containing a colhep rune with two boxes for children containing 2 and 3, and 4.](https://media.urbit.org/docs/hoon-syntax/cell3.png)
 
 This evaluates to `[[2 3] 4]`, and we can think of the second `:-`
-colhep as being “nested” inside of the first `:-` colhep.
+colhep as being "nested" inside of the first `:-` colhep.
 
 What Hoon expression does the following figure correspond to, and what
 does it evaluate to?
@@ -528,7 +529,7 @@ This represents the Hoon expression `:-  2  :-  3  4`, and evaluates to
 `[2 [3 4]]`.  (If you input this into dojo it will print as `[2 3 4]`,
 which we'll consider later.)
 
-Thinking in terms of such “LEGO brick” diagrams can be a helpful
+Thinking in terms of such "LEGO brick" diagrams can be a helpful
 learning and debugging tactic.
 
 ##  Preserving Values with Faces
@@ -547,8 +548,9 @@ value, it returns and falls back into the ether.
 Right now, we don't have a way of preserving values for subsequent use
 in a more complicated Hoon expression.
 
-We are going to store the value as a variable, or in Hoon, “pin a face
-to the subject”.  Hoon faces aren't exactly like variables in other
+We are going to store the value as a variable, or in Hoon, "pin a {% tooltip
+label="face" href="/glossary/face" /%} to the {% tooltip label="subject" href="/glossary/subject" /%}".
+Hoon faces aren't exactly like variables in other
 programming languages, but for now we can treat them that way, with the
 caveat that they are only accessible to daughter or sister expressions.
 
@@ -590,7 +592,7 @@ offers a workaround to retain named values:
 28
 ```
 
-The difference is that the Dojo “pin” is permanent until deleted:
+The difference is that the Dojo "pin" is permanent until deleted:
 
 ```hoon {% copy=true %}
 =perfect-number
@@ -604,7 +606,7 @@ Hoon program.)
 
 Create two numbers named `two` and `twenty`, with appropriate values,
 using the `=/` tisfas rune.
- 
+
 Then use these values to calculate 2²⁰ with `++pow` and `%-` cenhep.
 
 
@@ -628,13 +630,13 @@ A cell is formally a pair of two objects, but as long as the second
 ```
 
 This convention keeps the notation from getting too cluttered.  For now,
-let's call this a “running cell” because it consists of several cells
+let's call this a "running cell" because it consists of several cells
 run together.
 
 Since almost all cells branch rightwards, the pretty-printer (the
 printing routine that the Dojo uses) prefers to omit `[]` brackets
 marking the rightmost cells in a running cell.  These read to the
-right—that is, `[1 2 3]` is the same as `[1 [2 3]]`.
+right-that is, `[1 2 3]` is the same as `[1 [2 3]]`.
 
 ### Exercise:  Comparing Cells
 
@@ -660,7 +662,7 @@ A running cell which terminates in a `~` sig (null) atom is a list.
 - What is `~`'s value?  Try casting it to another aura.
 
   `~` is the null value, and here acts as a list terminator.
-  
+
 Lists are ubiquitous in Hoon, and many specialized tools exist to work
 with them.  (For instance, to apply a gate to each value in a list, or
 to sum up the values in a list, etc.)  We'll see more of them in a
@@ -697,7 +699,7 @@ There are two ways to represent text in Urbit:  cords (`@t` {% tooltip
 label="aura" href="/glossary/aura" /%} atoms) and {% tooltip
 label="tapes" href="/glossary/tape" /%} (lists of individual
 characters).  Both of these are commonly called
-[“strings”](https://en.wikipedia.org/wiki/String_%28computer_science%29).
+["strings"](https://en.wikipedia.org/wiki/String_%28computer_science%29).
 
 Why represent text?  What does that mean?  We have to have a way of
 distinguishing words that mean something to Hoon (like `list`) from
@@ -835,7 +837,7 @@ Carefully map how the runes in that statement relate to each other, and
 notice how the taller structure makes it relatively easier to read and
 understand what's going on.
 
-### Exercise:  “Absolute” Value (Around Ten)
+### Exercise:  "Absolute" Value (Around Ten)
 
 Implement a version of the absolute value function, {% math %}|x|{% /math %},
 similar to the Heaviside implementation above.  (Translate it to 10 as
