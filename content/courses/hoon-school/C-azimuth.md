@@ -24,7 +24,7 @@ tooltip label="Azimuth" href="/glossary/azimuth" /%} functions as a PKI
 so that Urbit ID points can be uniquely controlled, transferred, and
 used to work with instances of Urbit OS (ships).
 
-Urbit ID (=Azimuth) provides persistent and stable futureproof identity
+Urbit ID (Azimuth) provides persistent and stable futureproof identity
 to its users through a hierarchical address space.  Any particular Urbit
 ID plays a particular role in the overall Urbit system which is
 determined by its point number and classified into ranks.
@@ -33,10 +33,10 @@ determined by its point number and classified into ranks.
 
 Each Urbit ID point is a 128-bit address.  Urbit is structured with a
 hierarchy of addressable points, and bands of smaller values (preceded
-by many zeroes) have more “weight” in the system and broker access for
+by more zeroes) have more "weight" in the system and broker access to
 higher-addressed points.
 
-- **Galaxies** represent the “governing council” of Urbit, primarily
+- **Galaxies** represent the "governing council" of Urbit, primarily
   concerned with peer discovery and packet routing as well as network
   protocol governance. Galaxies allocate star address space.
 - **Stars** provide peer discovery services, handle distribution of
@@ -50,14 +50,14 @@ higher-addressed points.
   online they are persistent.  They are also free to spin up.
 
 In total there are 2¹²⁸ addressable points, of which the vast majority
-are available as unclaimed “comet space.”
+are available as unclaimed "comet space".
 
 #### Naming
 
 Urbit uses a system of mnemonic syllables to uniquely identify each
-address point.  These mnemonic names, called “`patp`s” after their Hoon
-representation `@p`, occur in a set of 256 suffixes (such as “zod”) and
-256 prefixes (such as “lit”).  They were selected to be memorable and
+address point.  These mnemonic names, called "`patp`s" after their Hoon
+representation `@p`, occur in a set of 256 suffixes (such as "zod") and
+256 prefixes (such as "lit").  They were selected to be memorable and
 pronounceable but not meaningful.
 
 | Number | Prefix | Suffix |
@@ -69,7 +69,7 @@ pronounceable but not meaningful.
 | 4    | sam | sev |
 | …    | …   | …   |
 | 254  | mip | nev |
-| 255  | fip | fes | 
+| 255  | fip | fes |
 
 Many points may be determined from the prefix and suffix alone, but
 planet names are obfuscated, meaning that they are scrambled so that the
@@ -97,9 +97,9 @@ but at some future time this will fall to the stars instead.
 #### Star
 
 Peer discovery, the primary role of stars besides planet allocation, is
-an important step in responsibly controlling network traffic. “The basic
+an important step in responsibly controlling network traffic. "The basic
 idea is, you need someone to sponsor your membership on the network. An
-address that can’t find a sponsor is probably a bot or a spammer”
+address that can't find a sponsor is probably a bot or a spammer"
 ([docs](https://urbit.org/understanding-urbit/)).
 
 The {% tooltip label="Stars" href="/glossary/star" /%} span the
@@ -189,12 +189,11 @@ the fourth.
 | @p           | ~doznec--dozzod-dozzod-dozzod-dozzod | ~fipfes-fipfes-fipfes-fipfes--fipfes-fipfes-fipfes-fipfes |
 
 A comet is sponsored by a star.  Currently star sponsors are determined
-randomly from a list supplied to `u3_dawn_come` in
-`pkg/urbit/vere/dawn.c` from a [jamfile](/language/hoon/reference/stdlib/2p#jam) provided by urbit.org at
-`https://bootstrap.urbit.org/comet-stars.jam`.
+randomly from a list supplied by a [jamfile](/language/hoon/reference/stdlib/2p#jam)
+from the [Urbit website](https://bootstrap.urbit.org/comet-stars.jam).
 
-Comets cannot be breached or rekeyed:  possession of the comet is *ipso
-facto* attestation of ownership.
+Comets cannot be {%tooltip label="factory reset" href="/glossary/reset" /%} or rekeyed:
+possession of the comet is *ipso facto* attestation of ownership.
 
 ##  Calculating with Addresses
 
@@ -280,4 +279,3 @@ The first moon of ~sampel-palnet is:
 
 - What is the first planet of the star ~sampel?  (Check the above text
   to determine the offset.)
-
