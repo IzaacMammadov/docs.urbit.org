@@ -13,7 +13,7 @@ desc = "The argument taken by a function in Hoon."
 +++
 
 The **sample** is the argument taken by a function (specifically a
-[gate](/glossary/gate) or `door`) in [Hoon](/glossary/hoon).
+[gate](/glossary/gate) or [door](/glossary/door)) in [Hoon](/glossary/hoon).
 The function defines the type and structure of its sample.
 
 ### Further Reading
