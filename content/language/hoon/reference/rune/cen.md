@@ -41,14 +41,14 @@ name = "cenket"
 symbol = "%^"
 usage = "Calls"
 slug = "#-cenket"
-desc = "Call gate with triple sample."
+desc = "Call a gate with a triple sample."
 
 [glossaryEntry.cenlus]
 name = "cenlus"
 symbol = "%+"
 usage = "Calls"
 slug = "#-cenlus"
-desc = "Call gate with a cell sample."
+desc = "Call a gate with a cell sample."
 
 [glossaryEntry.censig]
 name = "censig"
@@ -406,7 +406,7 @@ special case of [`%~` ("censig")](#-censig), and a gate is a special case of a
 
 ## `%^` "cenket"
 
-Call gate with triple sample.
+Call a gate with a triple sample.
 
 #### Syntax
 
@@ -467,7 +467,7 @@ Four arguments, fixed.
 
 ## `%+` "cenlus"
 
-Call gate with a cell sample.
+Call a gate with a cell sample.
 
 #### Syntax
 
