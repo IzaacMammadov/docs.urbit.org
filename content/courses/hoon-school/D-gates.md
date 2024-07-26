@@ -18,7 +18,7 @@ fact, the only two irregular forms we used were these:
   label="colhep" href="/language/hoon/reference/rune/col#--colhep" /%}
   rune, `:-  a  b`.
 
-    That is, these expressions are all the same for Hoon:
+    That is, these expressions are all the same in Hoon:
 
     ```hoon
     > [1 2]
@@ -50,10 +50,10 @@ fact, the only two irregular forms we used were these:
     (Why two `^-`s?  We have to clear the type information in general to
     be able to apply new type information.)
 
-Hoon developers often employ irregular forms, sometimes called “sugar
-syntax”.  Besides the `:-` colhep and `^-` kethep forms, we will
+Hoon developers often employ irregular forms, sometimes called "sugar
+syntax".  Besides the `:-` colhep and `^-` kethep forms, we will
 commonly use a new form for `%-` {% tooltip label="cenhep"
-href="/language/hoon/reference/rune/cen#-cenhep" /%} “function calls”:
+href="/language/hoon/reference/rune/cen#-cenhep" /%} "function calls":
 
 ```hoon
 > %-  add  [1 2]
@@ -67,17 +67,20 @@ You should get used to reading and interpreting these forms.  We will
 start to use them actively during this lesson.  You can find other
 irregular forms in the [irregular forms
 reference](/language/hoon/reference/irregular).
+(Note that the sugar syntax used above is actually for the `%+` {% tooltip label="cenlus"
+href="/language/hoon/reference/rune/cen#-cenlus" /%} rune. It is the same as the `%-` cenhep rune
+except you pass the elements of the input cell as children in the rune expression.)
 
 ### Exercise:  Converting Between Forms
 
-Convert each of the following irregular forms into the correct regular runic syntax.
+Convert each of the following irregular forms into the correct regular runic syntax:
 
 1. `(add 1 2)`
 2. `` `@ub`16 ``
 3. `[%lorem %ipsum]`
 4. `[%lorem %ipsum %dolor]` (can do two ways)
 
-Convert each of the following regular forms into the correct irregular syntax.
+Convert each of the following regular forms into the correct irregular syntax:
 
 1. `:-  %lemon  %jello`
 2. `^-  @p  ^-  @  256`
@@ -118,15 +121,15 @@ in other programming languages.
 The word "function" is used in various ways, but let's start by talking
 about them in the [mathematical
 sense](https://en.wikipedia.org/wiki/Function_%28mathematics%29).
-Roughly put, a function takes one or more arguments (i.e., input values)
+Roughly put, a function takes one or more arguments (i.e. input values)
 and returns a value.  The return value depends solely on the
 argument(s), and nothing else. For example, we can understand
 multiplication as a function:  it takes two numbers and returns another
 number.  It doesn't matter where you ask, when you ask, or what kind of
 hat you're wearing when you ask.  If you pass the same two numbers
-(e.g., `3` and `4`), you get the same answer returned every time (`12`).
+(e.g. `3` and `4`), you get the same answer returned every time (`12`).
 
-That output value depends solely upon input value(s) is an important
+That the output value depends solely upon the input value(s) is an important
 property of functions. This property is called [referential
 transparency](https://en.wikipedia.org/wiki/Referential_transparency),
 and it's one of the key ingredients to building a secure Urbit stack.
@@ -165,8 +168,9 @@ Compare this to other programming languages, if you know any:
 
 Beyond those, what is the purpose of each line?
 
-The `spec` gives the type as a mold and attaches a face to it for use in
-the gate.
+The `spec` gives the type as a {% tooltip label="mold"
+href="/glossary/mold" /%} and attaches a {% tooltip label="face"
+href="/glossary/face" /%} to it for use in the gate.
 
 The `hoon` body expression evaluates and yields a result, ultimately
 sent back to the call site.  Frequently it is wise to explicitly require
@@ -183,11 +187,11 @@ rune:
 'no'
 ```
 
-The input value, what is included in the `spec`, is sometimes called the
-argument or parameter in mathematics and other programming languages.
-It's basically the input value.  Hoon prefers to call it the `sample`
-for reasons that will become apparent later on, but you won't confuse
-other developers if you call it the argument or input.
+The input value (that is described by the `spec`) is sometimes called the
+"argument" or "parameter" in mathematics and other programming languages.
+Hoon prefers to call it the {% tooltip label="sample"
+href="/glossary/sample" /%} for reasons that will become apparent
+later on, but you won't confuse other developers if you call it the argument or input.
 
 Note as well that the backbone of the program runs straight down the
 left-hand margin.  This makes it easier to read the essential mainline
@@ -247,7 +251,7 @@ this:
    href="/glossary/generator" /%} file and call it using the name of the
    file.  (We'll do this in the next section of this lesson.)
 3. Attach the face (name) as an {% tooltip label="arm"
-   "href"="/glossary/arm" /%} in a {% tooltip label="core"
+   href="/glossary/arm" /%} in a {% tooltip label="core"
    href="/glossary/core" /%}.  (We don't know what those are yet, so
    we'll set them aside for a couple of lessons.)
 
@@ -283,13 +287,13 @@ To reiterate:  we typically use the `|=` {% tooltip label="bartis"
 href="/language/hoon/reference/rune/bar#-bartis" /%} rune to create a
 gate. In the expression above the `|=` is immediately followed by a set
 of parentheses containing two subexpressions: `a=@` and `(add 1 a)`. The
-first defines the gate's {% tooltip label="sample"
+first defines the type of the gate's {% tooltip label="sample"
 href="/glossary/sample" /%} (input value type), and the second defines
 the gate's product (output value).
 
-In the example gate above, `inc`, the sample is defined by `a=@`.  This
-means that the sample is defined as an atom `@` meaning that the gate
-will take as input anything of that type (so, not a cell).  The `sample`
+In the example gate above, `inc`, the sample is specified by `a=@`.  This
+means that the sample is an atom `@` and so the gate
+will take as input any atom (anything that's not a cell).  The `sample`
 is given the face `a`.  With a face it's easier to refer to the `sample`
 value in later code.
 
@@ -385,12 +389,12 @@ app/ desk/bill gen/ lib/ mar/ sur/ sys/ ted/
 Urbit organizes its internal view of data and files as _desks_, which
 are associated collections of code and data.  These are not visible to
 the host operating system unless you explicitly mount them, and changes
-on one side are not made clear to the other until you “commit” them.
+on one side are not made clear to the other until you "commit" them.
 (Think of Dropbox, except that you have to explicitly synchronize to see
 changes somewhere else.)
 
-Inside of your ship (“Mars”), you can mount a particular desk to the
-host operating system (“Earth”):
+Inside of your ship ("Mars"), you can mount a particular desk to the
+host operating system ("Earth"):
 
 ```hoon
 > |mount %base
@@ -470,8 +474,8 @@ to explain what the code does and perhaps how it does that.)
 
 1. Open a text editor.
 2. Copy the gate above into the text editor.  (Double-check that
-   two-space gaps are still gaps; some text editors chew them up into
-   single-space aces.)
+   two-space `gaps` are still `gaps`; some text editors chew them up into
+   single-space `aces`.)
 3. Save the gate as `square.hoon` in the `base/gen` folder of your
    fakeship.
 4. In the Dojo, `|commit %base`.  _You should see a message indicating
@@ -484,7 +488,8 @@ directory.
 
 ### Hoon Source and Special Characters
 
-Hoon source files are composed almost entirely of the printable ASCII
+Hoon source files are composed almost entirely of the printable
+[ASCII](https://en.wikipedia.org/wiki/ASCII)
 characters.  Hoon does not accept any other characters in source files
 except for [UTF-8](https://en.wikipedia.org/wiki/UTF-8) in quoted
 strings.  Hard tab characters are illegal; use two spaces instead.
@@ -506,7 +511,7 @@ the status bar at the bottom.  Urbit requires Unix-style line endings
 for Hoon files.
 
 ### Exercise:  Triangular Function
- 
+
 - Implement the triangular function as a gate and save it as a generator
   `tri.hoon`.
 
@@ -515,7 +520,7 @@ for Hoon files.
 ### Coding Piecemeal
 
 If you need to test code without completing it, you can stub out
-as-yet-undefined arms with the `!!` {% tolltip label="zapzap"
+as-yet-undefined arms with the `!!` {% tooltip label="zapzap"
 href="/language/hoon/reference/rune/zap#-zapzap" /%} crash rune.  `!!`
 is the only rune which has no children, and it's helpful when you need
 something to satisfy Hoon syntax but aren't ready to flesh out the
@@ -542,7 +547,7 @@ code, to which you can then attach a `face`.  For instance:
 ```hoon
 > =ntw -build-file %/lib/number-to-words/hoon
 
-> one-hundred:numbers:ntw  
+> one-hundred:numbers:ntw
 100
 
 > (to-words:eng-us:numbers:ntw 19)
@@ -560,6 +565,6 @@ now.  We will learn how to create a library in a subsequent lesson.
 
 In a generator, load the `number-to-words` library using the `/+` faslus
 rune.  (This must take place at the very top of your file.)
- 
+
 Use this to produce a gate which accepts an unsigned decimal integer and
 returns the text interpretation of its increment.
