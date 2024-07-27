@@ -23,7 +23,9 @@ distinctive features.  Certain advanced topics (e.g. type polymorphism)
 won't be addressed until a later chapter.
 
 A type is ordinarily understood to be a set of values. Examples: the set
-of all atoms is a type, the set of all cells is a type, and so on.
+of all {% tooltip label="atoms" href="/glossary/atom" /%} is a type,
+the set of all {% tooltip label="cells" href="/glossary/cell" /%} is a type,
+and so on.
 
 Type systems provide type safety, in part by making sure functions
 produce values of the correct type. When you write a function whose
@@ -33,10 +35,10 @@ such guarantees with _type checking_ and _type inference_.
 
 A _type_ is really a rule for interpretation.  But for our Hoonish
 purposes, it's rather too broad a notion and we need to clarify some
-different kinds of things we could refer to as “type”.  It is
+different kinds of things we could refer to as "type".  It is
 instructive for learners to distinguish three kinds of types in Hoon:
 
-1. Atoms:  values with auras.
+1. {% tooltip label="Atoms" href="/glossary/atom" /%}:  values with auras.
 2. {% tooltip label="Molds" href="/glossary/mold" /%}:  structures.
    Think of cells, lists, and sets.
 3. {% tooltip label="Marks" href="/glossary/mark" /%}:  file types.
@@ -72,7 +74,7 @@ this bit of metadata tells Hoon how to interpret the atom in question.
 The piece of type information that determines how Hoon interprets an
 atom is called an {% tooltip label="aura" href="/glossary/aura" /%}.
 The set of all atoms is indicated with the symbol `@`.  An aura is
-indicated with `@` followed by some letters, e.g., `@ud` for unsigned
+indicated with `@` followed by some letters, e.g. `@ud` for unsigned
 decimal.  Accordingly, the Hoon type system does more than track sets of
 values.  It also tracks certain other relevant metadata about how those
 values are to be interpreted.
@@ -103,8 +105,8 @@ expression.  Let's try `?` on `15`:
 ```
 
 `@ud` is the inferred type of `15` (and of course `15` is the product).
-The `@` is for “atom” and the `ud` is for “unsigned decimal”.  The
-letters after the `@` indicate the “aura” of the atom.
+The `@` is for "atom" and the `ud` is for "unsigned decimal".  The
+letters after the `@` indicate the "aura" of the atom.
 
 One important role played by the type system is to make sure that the
 output of an expression is of the intended data type.  If the output is
@@ -138,8 +140,11 @@ a `nest-fail` crash at compile-time:
 
 ```hoon
 > ^-(@ud [13 14])
+mint-nice
+-need.@ud
+-have.[@ud @ud]
 nest-fail
-[crash message]
+dojo: hoon expression failed
 ```
 
 Why `nest-fail`?  The inferred type of `[13 14]` doesn't nest under the
@@ -152,8 +157,8 @@ for nouns, `*`, then the cast succeeds:
 ```
 
 A cell of atoms is a noun, so the inferred type of `[13 14]` nests under
-`*`.  Every product of a Hoon expression nests under `*` because every
-product is a noun.
+`*`.  Every result of a Hoon expression nests under `*` because every
+result is a noun.
 
 ### What Auras are There?
 
@@ -290,7 +295,7 @@ simple cell types made up of various atom types.
 
 ### Generic Cells
 
-The `^` ket symbol is used to indicate the type for cells (i.e., the set
+The `^` ket symbol is used to indicate the type for cells (i.e. the set
 of all cells).  We can use it for casting as we did with atom auras,
 like `@ux` and `@t`:
 
@@ -305,15 +310,23 @@ like `@ux` and `@t`:
 [[12 13] [14 15 16]]
 
 > ^-(^ 123)
+mint-nice
+-need.[* *]
+-have.@ud
 nest-fail
+dojo: hoon expression failed
 
 > ^-(^ 0x10)
+mint-nice
+-need.[* *]
+-have.@ux
 nest-fail
+dojo: hoon expression failed
 ```
 
 If the expression to be evaluated produces a cell, the cast succeeds; if
 the expression evaluates produces an atom, the cast fails with a
-nest-fail crash.
+`nest-fail` crash.
 
 The downside of using `^` ket for casts is that Hoon will infer only
 that the product of the expression is a cell; it won't know what kind of
@@ -358,10 +371,18 @@ an atom, then simply cast using `[@ @]`:
 [12 13]
 
 > ^-([@ @] 12)
+mint-nice
+-need.[@ @]
+-have.@ud
 nest-fail
+dojo: hoon expression failed
 
 > ^-([@ @] [[12 13] 14])
+mint-nice
+-need.@
+-have.[@ud @ud]
 nest-fail
+dojo: hoon expression failed
 ```
 
 The `[@ @]` cast accepts any expression that evaluates to a cell with
@@ -387,7 +408,11 @@ atom auras:
 [0b11 0x10]
 
 > ^-([@ub @ux] [12 13])
+mint-nice
+-need.@ub
+-have.@ud
 nest-fail
+dojo: hoon expression failed
 ```
 
 You are also free to embed more square brackets `[ ]` to indicate cells
@@ -402,7 +427,11 @@ within cells:
 [[12 --0b1101] 0xdead.beef]
 
 > ^-([[@ @] @] [12 13])
+mint-nice
+-need.[@ @]
+-have.@ud
 nest-fail
+dojo: hoon expression failed
 ```
 
 You can also be highly specific with certain parts of the type
@@ -460,7 +489,7 @@ dojo: hoon expression failed
 We commonly need to do one of two things with a mold:
 
 1.  Validate the shape of a noun (_clam_).
-    
+
     ```hoon
     > (@ux 0x1000)
     0x1000
@@ -472,11 +501,7 @@ We commonly need to do one of two things with a mold:
 2.  Produce an example value ({% tooltip label="bunt"
     href="/glossary/bunt" /%}).
 
-We often use bunts to clam; for example `@ud` implicitly uses the `@ud`
-default value (`0`) as the type specimen which the computation must
-match.
-
-To _actually_ get the bunt value, use the `^*` {% tooltip label="kettar"
+To get the bunt value, use the `^*` {% tooltip label="kettar"
 href="/language/hoon/reference/rune/ket#-kettar" /%} rune, almost always
 used in its irregular form `*` tar:
 
@@ -495,13 +520,14 @@ used in its irregular form `*` tar:
 ```
 
 One more way to validate against type is to use an example instead of
-the extracted mold.  This uses the `^+` {% tooltip label="ketlus"
+a mold.  This uses the `^+` {% tooltip label="ketlus"
 href="/language/hoon/reference/rune/ket#-ketlus" /%} rune similarly to
 how we used `^-` {% tooltip label="kethep"
 href="/language/hoon/reference/rune/ket#--kethep" /%} previously:
 
 ```hoon {% copy=true %}
-^+(1.000 100)
+> ^+(1.000 100)
+100
 ```
 
 (This is what `^-` is actually doing:  `^-(p q)` reduces to `^+(^*(p)
@@ -514,22 +540,33 @@ tooltip label="tapes" href="/glossary/tape" /%}.  (A `tape` represents
 text.)
 
 ```hoon {% copy=true %}
-`(list @)`[104 101 108 108 111 32 77 97 114 115 33 ~]
-`tape``(list @)`[104 101 108 108 111 32 77 97 114 115 33 ~]
+> `(list @)`[104 101 108 108 111 32 77 97 114 115 33 ~]
+~[104 101 108 108 111 32 77 97 114 115 33]
 
-`(list @)`[144 57 195 46 200 165 186 88 118 99 ~]
-`(list @p)``(list @)`[144 57 195 46 200 165 186 88 118 99 ~]
+> `tape``(list @)`[104 101 108 108 111 32 77 97 114 115 33 ~]
+"hello Mars!"
+
+> `(list @)`[144 57 195 46 200 165 186 88 118 99 ~]
+~[144 57 195 46 200 165 186 88 118 99]
+
+> `(list @p)``(list @)`[144 57 195 46 200 165 186 88 118 99 ~]
+~[~bex ~dex ~fex ~hex ~lex ~mex ~pex ~rex ~tex ~wex]
 ```
 
-(Sometimes you see a `%bad-text` when using `tape`s, which means that
-you've tried to convert a number into text which isn't text.  More on
-`tape`s in Trees.)
+(Sometimes you see a `%bad-text` when using `tapes`, which means that
+you've tried to convert a number into text which isn't text. You'll learn
+more about `tapes` in the [lesson on Trees and Addressing](/courses/hoon-school/G-trees).)
 
 -   Why does this mold conversion fail?
 
-     ```hoon {% copy=true %}
-     `(list @ux)`[1 2 3 ~]
-     ```
+    ```hoon {% copy=true %}
+    > `(list @ux)`[1 2 3 ~]
+    mint-nice
+    -need.?(%~ [i=@ux t=it(@ux)])
+    -have.[@ud @ud @ud %~]
+    nest-fail
+    dojo: hoon expression failed
+    ```
 
     What do we need to do in order to make it succeed?
 
@@ -541,7 +578,7 @@ We can have more complex molds as well:
 ```
 
 Most of the time, we will define such complex types using specific runes
-and “mold builder” tools.  Thus a `list` needs an associated type `(list
+and "mold builder" tools.  Thus a `list` needs an associated type `(list
 @)` to correctly denote the data type.
 
 ### Identifying Molds
@@ -556,8 +593,9 @@ href="/language/hoon/reference/rune/zap#-zapgar" /%} rune.
 [#t/@ux q=2.900.541.101]
 ```
 
-For reasons which will be elaborated in Trees, this is often employed as
-the so-called “type spear” `-:!>`:
+For reasons which will be elaborated in the [Trees and Addressing lesson]
+(/courses/hoon-school/G-trees), this is often employed as
+the so-called "type spear" `-:!>`:
 
 ```hoon
 > -:!>(0xace2.bead)
@@ -581,21 +619,21 @@ $?  [@ud @ux @ub ~]
 and use it in a gate:
 
 ```hoon {% copy=true %}
-|=  [n=$?(@ud @ux @ub)]
-(add n 1)
+> =foo |=  [n=$?(@ud @ux @ub)]
+  (add n 1)
 ```
 
 ```hoon
-> (foo 4)  
-5  
-> (foo 0x5)  
-6  
-> (foo 0b110)  
-7  
-> (foo ~zod)  
--need.?(@ub @ud @ux)  
--have.@p  
-nest-fail  
+> (foo 4)
+5
+> (foo 0x5)
+6
+> (foo 0b110)
+7
+> (foo ~zod)
+-need.?(@ub @ud @ux)
+-have.@p
+nest-fail
 dojo: hoon expression failed
 ```
 
@@ -612,6 +650,6 @@ The irregular form of `$?` bucwut looks like this:
 ```
 
 Type unions are mainly helpful when you need to match something that can
-have multiple options.  We will use them extensively with `@tas` terms,
-such as `?(%red %green %blue)` which would only admit one of those three
-tags.
+have multiple options.  We will use them extensively with `@tas`
+{% tooltip label="terms" href="/glossary/term" /%}, such as `?(%red %green %blue)`
+which would only admit one of those three tags.
