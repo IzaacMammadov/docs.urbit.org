@@ -6,19 +6,19 @@ objectives = ["Employ a trap to produce a reentrant block of code.", "Produce a 
 +++
 
 _This module will introduce the key Hoon data structure known as the
-**core**, as well as ramifications._
+**core**, as well as its ramifications._
 
 The Hoon subject is a noun.  One way to look at this noun is to denote
-each fragment of is as either a computation or data.  By strictly
+each fragment of it as either a computation or data.  By strictly
 separating these two kinds of things, we derive the data structure known
 within Hoon as a {% tooltip label="core" href="/glossary/core" /%}.
 
 Cores are the most important data structure in Hoon.  They allow you to
 solve many coding problems by identifying a pattern and supplying a
 proper data structure apt to the challenge.  You have already started
-using cores with `|=` {% tooltip label="bartis"
+using cores with the `|=` {% tooltip label="bartis"
 href="/language/hoon/reference/rune/bar#-bartis" /%} {% tooltip
-label="gate" href="/glossary/gate" /%} construction and use.
+label="gate" href="/glossary/gate" /%} rune.
 
 This lesson will introduce another {% tooltip label="core"
 href="/glossary/core" /%} to solve a specific use case, then continue
@@ -36,12 +36,12 @@ prodigiously numerous for humans to ever complete.  At this point, you
 know how to build code that can make a decision between two branches,
 two different Hoon expressions.  Computers can decide between
 alternatives, but they also need to carry out a task until some
-condition is met.  (We can think of it as a recipe step, like “crack
-five eggs into a bowl”.  Until that process is complete, we as humans
+condition is met.  (We can think of it as a recipe step, like "crack
+five eggs into a bowl".  Until that process is complete, we as humans
 continue to carry out the equivalent action again and again until the
 process has been completed.)
 
-In programming, we call this behavior a “loop”.  A loop describes the
+In programming, we call this behavior a "loop".  A loop describes the
 situation in which we set up some condition, and repeat a process over
 and over until something we do meets that condition.  _Most_ of the
 time, this means counting once for each item in a collection, like a
@@ -52,7 +52,7 @@ particular point in an expression (presumably with some different
 values).  One way to do this is using the `|-` {% tooltip label="barhep"
 href="/language/hoon/reference/rune/bar#--barhep" /%} rune, which
 creates a structure called a {% tooltip label="trap"
-href="/glossary/trap" /%}.  (Think of the “trap” in the bottom of your
+href="/glossary/trap" /%}.  (Think of the "trap" in the bottom of your
 sink.)  It means a point to which you can return again, perhaps with
 some key values (like a counter) changed.  Then you can repeat the
 calculation inside the trap again.  This continues until some single
@@ -191,7 +191,7 @@ You can do even better using _interpolation_:
     120
     ```
 
-    We're “floating” gate calls until we reach the final iteration of
+    We're "floating" gate calls until we reach the final iteration of
     such calls that only produces a value.  The `mul n` component of the
     gate leaves `mul 5` waiting for the final series of terms to be
     operated upon.  The `%=($ n (dec n)))` component expands the
@@ -257,15 +257,15 @@ regular runic form.
 ```hoon
 > !,  *hoon
  |=  n=@ud
- |-  
- ~&  n  
- ?:  =(n 1)  
+ |-
+ ~&  n
+ ?:  =(n 1)
    1
- %+  mul  
+ %+  mul
    n
- %=  $  
-   n  (dec n)  
- ==  
+ %=  $
+   n  (dec n)
+ ==
 [ %brts
   p=[%bcts p=term=%n q=[%base p=[%atom p=~.ud]]]
     q
@@ -341,9 +341,9 @@ Two tools that may help:
   label="++snag" href="/language/hoon/reference/stdlib/2b#snag" /%}
   gate, e.g. ``(snag 3 `(list @ud)`~[1 2 3 4 5])`` yields `4` (so
   `++snag` is zero-indexed; it counts from zero).
-- You can join an element to a list using the
-  [`++snoc`](/language/hoon/reference/stdlib/2b#snoc) gate, e.g. ``(snoc
-  `(list @ud)`~[1 2 3] 4)`` yields `~[1 2 3 4]`.
+- You can join an element to a list using the {% tooltip
+  label="++snoc" href="/language/hoon/reference/stdlib/2b#snoc" /%} gate,
+  e.g. ``(snoc `(list @ud)`~[1 2 3] 4)`` yields `~[1 2 3 4]`.
 
 ```hoon {% copy=true %}
 |=  [input=tape]
@@ -380,7 +380,7 @@ operations to data.  Formally, we'll say a core is a cell `[battery
 payload]`, where {% tooltip label="battery" href="/glossary/battery" /%}
 describes the things that can be done (the operations) and {% tooltip
 label="payload" href="/glossary/payload" /%} describes the data on which
-those operations rely.  (For many English speakers, the word “battery”
+those operations rely.  (For many English speakers, the word "battery"
 evokes a [voltaic pile](https://en.wikipedia.org/wiki/Voltaic_pile) more
 than a bank of guns, but the artillery metaphor is a better mnemonic for
 `[battery payload]`.)
@@ -406,16 +406,17 @@ the program as the {% tooltip label="subject" href="/glossary/subject"
 Hoon code is evaluated.
 
 For instance, when we first composed generators, we made what are called
-“naked generators”:  that is, they do not have access to any information
+"naked generators":  that is, they do not have access to any information
 outside of the base subject (Arvo, Hoon, and `%zuse`) and their {%
-tooltip labe="sample" href="/glossary/sample" /%} (arguments).  Other {%
+tooltip label="sample" href="/glossary/sample" /%} (arguments).  Other {%
 tooltip label="generators" href="/glossary/generator" /%} (such as
 `%say` generators, described below) can have more contextual
 information, including random number generators and optional arguments,
 passed to them to form part of their subject.
 
 Cores have two kinds of values attached:  {% tooltip label="arms"
-href="/glossary/arm" /%} and _legs_, both called limbs.  Arms describe
+href="/glossary/arm" /%} and {% tooltip label="legs"
+href="/glossary/leg" /%}, both called limbs.  Arms describe
 known labeled addresses (with `++` luslus or `+$` lusbuc) which carry
 out computations.  Legs are limbs which store data (with e.g. `=/`
 tisfas).
@@ -426,12 +427,12 @@ So legs are for data and arms are for computations.  But what
 _specifically_ is an arm, and how is it used for computation?  Let's
 begin with a preliminary explanation that we'll refine later.
 
-An {% tooltip label="arm" href="/glossary/arm" /%}} is some expression
+An {% tooltip label="arm" href="/glossary/arm" /%} is some expression
 of Hoon encoded as a noun.  (By 'encoded as a noun' we literally mean:
 'compiled to a Nock formula'.  But you don't need to know anything about
 {% tooltip label="Nock" href="/glossary/nock" /%} to understand Hoon.)
 You virtually never need to treat an arm as raw data, even though
-technically you can—it's just a noun like any other.  You almost always
+technically you can-it's just a noun like any other.  You almost always
 want to think of an arm simply as a way of running some Hoon code.
 
 Every expression of Hoon is evaluated relative to a subject.  An {%
@@ -620,11 +621,11 @@ As a tree, a gate looks like the following:
 ```
 
 Like all arms, `$` buc is computed with its parent core as the subject.
-When `$` buc is computed, the resulting value is called the “product” of
+When `$` buc is computed, the resulting value is called the "product" of
 the gate.  No other data is used to calculate the product other than the
 data in the gate itself.
 
-We will always call the values supplied to the gate the “sample” since
+We will always call the values supplied to the gate the "sample" since
 we will later discover that this technical meaning (`[battery [sample
 context]]`) holds throughout more advanced cores.
 
@@ -697,7 +698,7 @@ see the actual noun of the `$` buc arm, enter `+2:inc` into the Dojo:
 ```
 
 This is un-computed Nock. You don't need to understand any of this,
-except that code and data are homoiconic—they are in a sense the same
+except that code and data are homoiconic-they are in a sense the same
 for Urbit programs.
 
 It's worth pointing out that the arm named `$` buc can be used like any
@@ -710,7 +711,7 @@ other name.  We can compute `$` buc directly with `$:inc` in the Dojo:
 
 This result may seem a bit strange.  We didn't call `inc` or in any
 other way pass it a number.  Yet using `$` buc to evaluate `inc`'s arm
-seems to work—sort of, anyway.  Why is it giving us `1` as the return
+seems to work-sort of, anyway.  Why is it giving us `1` as the return
 value?  We can answer this question after we understand gate samples a
 little better.
 
@@ -814,7 +815,7 @@ with one modification:  the sample is replaced with the function
 argument.  Then the `$` buc arm is computed against this modified
 version of the `inc` gate.
 
-Remember that the default or “bunt” value of the sample of inc is `0`.
+Remember that the default or "bunt" value of the sample of inc is `0`.
 In the function call above, a copy of the `inc` gate is made but with a
 sample value of `234`.  When `$` buc is computed against this modified
 core, the product is `235`.
@@ -930,19 +931,23 @@ label="dotlus" href="/language/hoon/reference/rune/dot#-dotlus" /%}
 rune, which increments a value (adds one).
 
 In a formal sense, we have to make sure that there is always a base
-case, a way of actually ending the recursion—if there isn't, we end up
+case, a way of actually ending the recursion-if there isn't, we end up
 with an [infinite loop](https://en.wikipedia.org/wiki/Infinite_loop)!
-Some children's songs like [“Yon
-Yonson”](https://en.wikipedia.org/wiki/Yon_Yonson) or [“The Song That
-Never Ends”](https://en.wikipedia.org/wiki/The_Song_That_Never_Ends)
-rely on such recursive humor.
+Some children's songs like ["Yon
+Yonson"](https://en.wikipedia.org/wiki/Yon_Yonson) or ["The Song That
+Never Ends"](https://en.wikipedia.org/wiki/The_Song_That_Never_Ends)
+rely on such recursive humor:
 
 > This is the song that never ends
+>
 > Yes, it goes on and on, my friends
+>
 > Some people started singing it not knowing what it was
-> And they′ll continue singing it forever just because—
+>
+> And they'll continue singing it forever just because-
 >
 > This is the song that never ends
+>
 > . . .
 
 You need to make sure when you compose a {% tooltip label="trap"
@@ -1247,8 +1252,8 @@ recursion.
 The [Ackermann
 function](https://en.wikipedia.org/wiki/Ackermann_function) is one of
 the earliest examples of a function that is both totally
-computable—meaning that it can be solved—and not primitively
-recursive—meaning it can not be rewritten in an iterative fashion.
+computable-meaning that it can be solved-and not primitively
+recursive-meaning it can not be rewritten in an iterative fashion.
 
 {% math block=true %}
 \begin{array}{lcl}
