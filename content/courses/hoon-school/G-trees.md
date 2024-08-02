@@ -26,18 +26,18 @@ layout naturally:
 
 A binary tree has a single base node, and each node of the tree may have
 up to two child nodes (but it need not have any).  A node without
-children is a “leaf”.  You can think of a noun as a binary tree whose
+children is a "leaf".  You can think of a noun as a binary tree whose
 leaves are atoms, i.e., unsigned integers.  All non-leaf nodes are
-cells.  An atom is a trivial tree of just one node; e.g., `17`.
+cells.  An atom is a trivial tree of just one node, e.g. `17`.
 
-For instance, if we produce a cell in the {% tooltip label="Dojo"
-href="/glossary/dojo" /%}
+For instance, the following cell produced in the {% tooltip label="Dojo"
+href="/glossary/dojo" /%}:
 
 ```hoon
 > =a [[[8 9] [10 11]] [[12 13] [14 15]]]
 ```
 
-it can be represented as a tree with the contents
+can be represented as a tree with the contents:
 
 ![Binary tree with bottom row only populated](https://media.urbit.org/docs/userspace/hoon-school/binary-tree-bottom-row.png)
 
@@ -67,7 +67,7 @@ structure.  For instance, {% tooltip label="lists" href="/glossary/list"
 collections of values which occupy the tails of cells, leading to a
 rightwards-branching tree representation. (Although this may seem
 extravagant, it has effectively no bearing on efficiency in and of
-itself—that's a function of the algorithms working with the data.)
+itself-that's a function of the algorithms working with the data.)
 
 ### Exercise:  Map Nouns to Tree Diagrams
 
@@ -76,9 +76,9 @@ itself—that's a function of the algorithms working with the data.)
 
     | Noun | Tree Diagram |
     | ---- | ------------ |
-    | 1. `[[[1 2] 3] 4]` | A. ![](https://media.urbit.org/docs/userspace/hoon-school/binary-tree-exercise-1.png) | 
-    | 2. `[[1 2] 3 4]` | B. ![](https://media.urbit.org/docs/userspace/hoon-school/binary-tree-exercise-2.png) | 
-    | 3. `[1 2 3 4]` | C. ![](https://media.urbit.org/docs/userspace/hoon-school/binary-tree-exercise-3.png) | 
+    | 1. `[[[1 2] 3] 4]` | A. ![](https://media.urbit.org/docs/userspace/hoon-school/binary-tree-exercise-1.png) |
+    | 2. `[[1 2] 3 4]` | B. ![](https://media.urbit.org/docs/userspace/hoon-school/binary-tree-exercise-2.png) |
+    | 3. `[1 2 3 4]` | C. ![](https://media.urbit.org/docs/userspace/hoon-school/binary-tree-exercise-3.png) |
 
 ### Exercise:  Produce a List of Numbers
 
@@ -116,7 +116,7 @@ itself—that's a function of the algorithms working with the data.)
     the list, the thing that's being built here.
 
     This program works by having each iteration of the list create a
-    cell.  In each of these cells, the head—the cell's first position—is
+    cell.  In each of these cells, the head-the cell's first position-is
     filled with the current-iteration value of `count`.  The tail of the
     cell, its second position, is filled with _the product of a new
     iteration of our code_ that starts at `|-`.  This iteration will
@@ -265,7 +265,7 @@ represented as data.  One corollary of these facts is that we can access
 any arbitrary part of an expression, gate, {% tooltip label="core"
 href="/glossary/core" /%}, whatever, via addressing (assuming proper
 permissions, of course).  (In fact, we can even hot-swap parts of cores,
-which is how [wet gates](/courses/hoon-school/R-metals#wet-gates) work.)
+which is how {% tooltip label="wet gates" href="/glossary/wet-gate" /%} work.)
 
 There are three different ways to access values:
 
@@ -292,27 +292,27 @@ have to decide if the contents of a node is a direct value or a tree:
 it just happens.
 
 ### Exercise:  Tapes for Text
- 
+
 A {% tooltip label="tape" href="/glossary/tape" /%} is one way of
 representing a text message in Hoon.  It is written with double quotes:
- 
+
 ```hoon {% copy=true %}
 "I am the very model of a modern Major-General"
 ```
 
 A `tape` is actually a `(list @t)`, a binary tree of single characters
 which only branches rightwards and ends in a `~`:
- 
+
 ![](https://media.urbit.org/docs/userspace/hoon-school/binary-tree-tape.png)
 
 - What are the addresses of each letter in the tree for the Gilbert &
   Sullivan quote above?  Can you see the pattern?  Can you get the
-  address of EVERY letter through `l`?
+  address of _every_ letter through `l`?
 
 ### Positional Addressing (Lark Notation)
 
-Much like relative directions, one can also state “left, left, right,
-left” or similar to locate a particular node in the tree.  These are
+Much like relative directions, one can also state "left, left, right,
+left" or similar to locate a particular node in the tree.  These are
 written using `-` (left) and `+` (right) alternating with `<` (left) and
 `>` (right).
 
@@ -320,7 +320,7 @@ written using `-` (left) and `+` (right) alternating with `<` (left) and
 
 Lark notation can locate a position in a tree of any size.  However, it
 is most commonly used to grab the head or tail of a cell, e.g. in the
-_type spear_ (on which [more later](/courses/hoon-school/M-typecheck)):
+_type spear_ (discussed more in [the lesson on Type Checking](/courses/hoon-school/M-typecheck)):
 
 ```hoon {% copy=true %}
 -:!>('hello Mars')
@@ -419,6 +419,7 @@ Here are some examples:
 
 > b.a:[b=[a=1 b=2 c=3] a=11]
 -find.b.a
+dojo: hoon expression failed
 
 > g.s:[s=[c=[d=12 e='hello'] g=[h=0xff i=0b11]] r='howdy']
 [h=0xff i=0b11]
@@ -450,7 +451,7 @@ includes as a trivial case a path of just one limb.  Thus, all limbs are
 wings, and all limb expressions are wing expressions.
 
 We mention this because it is convenient to refer to all limbs and
-non-trivial wings as simply “wings”.
+non-trivial wings as simply "wings".
 
 ### Names and Faces
 
@@ -515,7 +516,7 @@ crash:
 ```hoon
 > a:[b=12 c=14]
 -find.a
-[crash message]
+dojo: hoon expression failed
 ```
 
 You can even give faces to faces:
@@ -570,7 +571,8 @@ Neither of the legs `c=14` or `15` is checked. Accordingly, a search for
 
 ```hoon
 > c:[[4 b=5] [b=6 b=[c=14 15]]]
--find.c [crash message]
+-find.c
+dojo: hoon expression failed
 ```
 
 In any programming paradigm, good names are valuable and collisions
@@ -579,7 +581,7 @@ restriction against using the same face name for multiple limbs of the
 subject.  This is one way in which faces aren't like ordinary variables.
 If multiple values match a particular face, we need a way to distinguish
 them.  In other words, there are cases when you don't want the limb of
-the first matching face.  You can ‘skip’ the first match by prepending
+the first matching face.  You can 'skip' the first match by prepending
 `^` to the face.  Upon discovery of the first match at address `n`, the
 search skips `n` (as well as its children) and continues the search
 elsewhere:
@@ -702,7 +704,7 @@ to manipulate a {% tooltip label="core" href="/glossary/core" /%} in
 many in-depth code instances.
 
 ### Expanding the Runes
- 
+
 `|=` {% tooltip label="bartis"
 href="/language/hoon/reference/rune/bar#-bartis" /%} produces a gate.
 It actually expands to
@@ -711,7 +713,7 @@ It actually expands to
 =|  a=spec
 |%  ++  $  b=hoon
 --
-``` 
+```
 
 where `=|` {% tooltip label="tisbar"
 href="/language/hoon/reference/rune/tis#-tisbar" /%} means to add its
@@ -729,7 +731,7 @@ could you write that in terms of `|%` and `++`?
   and returns a {% tooltip label="list" href="/glossary/list" /%} of its
   digits.
 
-One verbose Hoon program 
+One verbose Hoon program
 
 ```hoon {% copy=true %}
 !:
@@ -830,7 +832,7 @@ tools available to manipulate and analyze the data:
 - The {% tooltip label="++flop"
   href="/language/hoon/reference/stdlib/2b#flop" /%} function reverses
   the order of the elements (exclusive of the `~`):
-  
+
     ```hoon
     > (flop ~[1 2 3 4 5])
     ~[5 4 3 2 1]
@@ -861,16 +863,16 @@ tools available to manipulate and analyze the data:
 
     > (snag 1 `(list @)`~[11 22 33 44])
     22
-    
+
     > (snag 3 `(list @)`~[11 22 33 44])
     44
-    
+
     > (snag 3 "Hello!")
     'l'
-    
+
     > (snag 1 "Hello!")
     'e'
-    
+
     > (snag 5 "Hello!")
     '!'
     ```
@@ -899,7 +901,7 @@ There are a couple of sometimes-useful `list` builders:
   between two numeric values (inclusive of both):
 
     ```hoon
-    > (gulf 5 10)  
+    > (gulf 5 10)
     ~[5 6 7 8 9 10]
     ```
 
@@ -1018,7 +1020,7 @@ First, bind these faces.
   - 🍑 `42` or `->->-`
   - 🍒 `62` or `+>+>-`
   - 🍍 `87` or `->->+>`
-  
+
 
 - Resolving Lark Expressions
 
@@ -1041,7 +1043,7 @@ First, bind these faces.
     8.  `[[[b=%bweh a=[[[b=%bweh a=%.y c=8] b="no" c="false"] 9] c=8] b="no" c="false"] 9]`
     9.  `%bweh`
     10.  `9` appears 3 times:
-    
+
     ```hoon
     > a(a a(a a))
     [[[ b=%bweh a [[[b=%bweh a=[[[b=%bweh a=%.y c=8] b="no" c="false"] 9] c=8] b="no" c="false"] 9] c=8] b="no" c="false"] 9]
@@ -1094,7 +1096,7 @@ First, bind these faces.
     <|moon planet star galaxy moon planet star galaxy|>
     ```
 
-    This will not run because `weld` expects the elements of both lists to be of the same type:
+    This will not run because `weld` expects the elements of both lists to be of the same type:
 
     ```hoon
     > (weld b c)
@@ -1103,8 +1105,8 @@ First, bind these faces.
     This also fails for the same reason, but it is important to note
     that in some languages that are more lazily evaluated, such an
     expression would still work since it would only look at the length
-    of `b` and `c` and not worry about what the elements were.  In that
-    case, it would return `7`.
+    of `b` and `c` and not worry about what the elements were.  In that
+    case, it would return `7`.
 
     ```hoon
     > (lent (weld b c))
